@@ -2,8 +2,11 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import time
+import os
 
 import telebot
+
+os.environ.get('PORT', 5000)
 
 chrome_options = Options()
 chrome_options.add_argument('--no-sandbox')
