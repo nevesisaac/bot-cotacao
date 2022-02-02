@@ -6,25 +6,25 @@ import os
 
 import telebot
 
-os.environ.get('PORT', 5000)
-
+#configurções necessárias para que o código consiga rodar no replit 
 chrome_options = Options()
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
 
-CHAVE_API="5010410453:AAGn11LoQoZtk553iv9TWNybaRs-lpC1GwQ"
-bot = telebot.TeleBot(CHAVE_API)
+CHAVE_API="5010410453:AAGn11LoQoZtk553iv9TWNybaRs-lpC1GwQ" #chave do meu bot no telegram
+bot = telebot.TeleBot(CHAVE_API)#declração do objeto bot 
 
-navegador = webdriver.Chrome(options=chrome_options)
+navegador = webdriver.Chrome(options=chrome_options) #declaração do objeto de automação no navegador
 navegador.get("https://economia.uol.com.br/cotacoes/")
 
+#requisição do comndo para o bot
 @bot.message_handler(commands=["bitcoin"])
 def bitcoin(mensagem):
 
-  cgroup = navegador.find_element_by_xpath("/html/body/section[1]/div[2]/div/div[3]/table/tbody/tr[4]/td[3]")
+  cgroup = navegador.find_element_by_xpath("/html/body/section[1]/div[2]/div/div[3]/table/tbody/tr[4]/td[3]") #encontra dado pelo xpath
   bcoin = cgroup.text
 
-  bot.send_message(mensagem.chat.id, "O valor atual de um bitcoin equivale a: " + bcoin)
+  bot.send_message(mensagem.chat.id, "O valor atual de um bitcoin equivale a: " + bcoin) #envia mensagem
     
 @bot.message_handler(commands=["libra"])
 def libra(mensagem):
@@ -45,7 +45,7 @@ def dolar(mensagem):
 def verificar(mensagem):
     return True
 
-@bot.message_handler(func=verificar)
+@bot.message_handler(func=verificar) #mensagem padrão caso nenhuma das outras requisições sejam requisitadas
 def responder(mensagem):
     texto = """
     Escolha uma opção para continuar (Clique no item):
@@ -55,4 +55,4 @@ def responder(mensagem):
 Responder qualquer outra coisa não vai funcionar, clique em uma das opções"""
     bot.reply_to(mensagem, texto)
     
-bot.polling()
+bot.polling() #mantem bot funcionando sempre
